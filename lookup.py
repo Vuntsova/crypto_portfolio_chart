@@ -51,7 +51,7 @@ def lookup():
         },
         {
             'sym':'BTC',
-            'amount_owned': 245,
+            'amount_owned': 5,
             'price_paid_per': 4887.80
         },
         {
@@ -82,21 +82,22 @@ def lookup():
 
                 total_paid = float(coin['amount_owned']) * float(result['price_usd'])
                 worth_now = float(coin['amount_owned']) * float(coin['price_paid_per'])
-                profit_loss = float(worth_now) - float(total_paid)
+                profit_loss =  float(total_paid) - float(worth_now)
                 portfolio_profit_loss +=profit_loss
-                per_coin_loss = float(coin['price_paid_per']) - float(result['price_usd'])
+                per_coin_loss = float(result['price_usd']) - float(coin['price_paid_per'])
                 current_value = float(coin['amount_owned']) * float(result['price_usd'])
+                other_value = float(float(coin['amount_owned']) * float(coin['price_paid_per']))
+                loss = current_value - other_value
                 total_current_value+=current_value
                 pie.append(result['name'])
                 pie_size.append(coin['amount_owned'])
-
                 name = Label(root, text=result['name'], bg='white')
                 name.grid(row=row_count,column=0, sticky=N+S+E+W)
                 rank = Label(root, text=result['rank'], bg='silver')
                 rank.grid(row=row_count,column=1, sticky=N+S+E+W)
                 current_price = Label(root, text='${0:.2f}'.format(float(result['price_usd'])), bg='white')
                 current_price.grid(row=row_count,column=2, sticky=N+S+E+W)
-                price_paid = Label(root, text='${0:.0f}'.format(float(coin['amount_owned'])), bg='silver')
+                price_paid = Label(root, text='${0:.2f}'.format(float(coin['price_paid_per'])), bg='silver')
                 price_paid.grid(row=row_count,column=3, sticky=N+S+E+W)
                 profit_loss = Label(root, text='${0:.2f}'.format(float(per_coin_loss)), bg='white', fg=red_green(float(per_coin_loss)))
                 profit_loss.grid(row=row_count,column=4, sticky=N+S+E+W)
@@ -106,9 +107,9 @@ def lookup():
                 twenty_four_hour.grid(row=row_count,column=6, sticky=N+S+E+W)
                 week_change = Label(root, text='%{0:.2f}'.format(float(result['percent_change_7d'])), bg='silver', fg=red_green(float(result['percent_change_7d'])))
                 week_change.grid(row=row_count,column=7, sticky=N+S+E+W)
-                current_value = Label(root, text='${0:.2f}'.format(float(result['price_usd'])), bg='white')
+                current_value = Label(root, text='${0:.2f}'.format(float(current_value)), bg='white')
                 current_value.grid(row=row_count,column=8, sticky=N+S+E+W)
-                total = Label(root, text='${0:.2f}'.format(float(coin['amount_owned']) * float(coin['price_paid_per']) - float(coin['amount_owned']) * float(result['price_usd'])), bg='silver', fg=red_green(float(coin['amount_owned']) * float(coin['price_paid_per']) - float(coin['amount_owned']) * float(result['price_usd'])))
+                total = Label(root, text='${0:.2f}'.format(float(loss)), bg='silver', fg=red_green(float(loss)))
                 total.grid(row=row_count,column=9, sticky=N+S+E+W)
 
                 row_count+=1
